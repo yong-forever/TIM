@@ -12,6 +12,9 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.Guideline;
 
+import com.example.imitate_tim.Utils.SQL;
+import com.example.imitate_tim.Utils.TableUtils_user;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private ImageView ivHead;
@@ -24,6 +27,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView tvTerms;
     private TextView tvCreateNew;
     private TextView tvFail;
+    private SQL sql;
+    private TableUtils_user utils_user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +38,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void initView() {
+        sql=new SQL(this,"USER_DB");
+        utils_user=new TableUtils_user(sql);
         ivHead = (ImageView) findViewById(R.id.iv_head);
         edUsername = (EditText) findViewById(R.id.ed_username);
         spUsers = (Spinner) findViewById(R.id.sp_users);
