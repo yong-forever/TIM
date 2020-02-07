@@ -22,6 +22,7 @@ public class Lead_Activity extends AppCompatActivity {
                     e.printStackTrace();
                 }
                 startActivity(new Intent(Lead_Activity.this,MainActivity.class));
+                finish();
             }
         };
         aa.start();

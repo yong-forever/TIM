@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <FrameLayout
+        android:id="@+id/fl_content"
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp">
+
+    </FrameLayout>
+    <View
+        android:background="#F5F5F5"
+        android:layout_width="match_parent"
+        android:layout_height="1dp">
+
+    </View>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:background="#fff"
+        android:layout_width="match_parent"
+        android:layout_height="60dp">
+        <LinearLayout
+            android:gravity="center"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent">
+            <ImageView
+                android:id="@+id/iv_page1"
+                android:src="@drawable/pvt"
+                android:layout_width="30dp"
+                android:layout_height="30dp">
+
+            </ImageView>
+        </LinearLayout>
+        <LinearLayout
+            android:gravity="center"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent">
+            <ImageView
+                android:id="@+id/iv_page2"
+                android:src="@drawable/pvu"
+                android:layout_width="30dp"
+                android:layout_height="30dp">
+
+            </ImageView>
+        </LinearLayout>
+        <LinearLayout
+            android:gravity="center"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent">
+            <ImageView
+                android:id="@+id/iv_page3"
+                android:src="@drawable/pvq"
+                android:layout_width="30dp"
+                android:layout_height="30dp">
+
+            </ImageView>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
