@@ -10,7 +10,7 @@ import com.example.imitate_tim.Utils.MyFragmentPagerAdapter;
 
 public class Lord_Activity extends AppCompatActivity {
     private MyFragmentPagerAdapter fragmentPagerAdapter;
-    private ViewPager vpLord;
+    static ViewPager vpLord;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,5 +24,8 @@ public class Lord_Activity extends AppCompatActivity {
         fragmentPagerAdapter=new MyFragmentPagerAdapter(getSupportFragmentManager(), PagerAdapter.POSITION_NONE);
         vpLord.setAdapter(fragmentPagerAdapter);
         vpLord.setCurrentItem(1);
+    }
+    public static void setCurrentItem(int num){
+        vpLord.setCurrentItem(num);
     }
 }

@@ -3,6 +3,7 @@ package com.example.imitate_tim;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -15,6 +16,7 @@ import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
+import com.example.imitate_tim.Utils.IconOnTouchListener;
 import com.example.imitate_tim.Utils.RefreshListView;
 import com.example.imitate_tim.Utils.ScreenUtils;
 import com.example.imitate_tim.widget.SlidingDeleteView;
@@ -39,16 +41,19 @@ public class Lord_Page2_fg1 extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Log.i(TAG, "onCreateView: sdas");
         View view = inflater.inflate(R.layout.activity_lord_page2_fg1, null);
-
         ivContact = (ImageView) view.findViewById(R.id.iv_contact);
+        ivAdd = (ImageView) view.findViewById(R.id.iv_add);
+        rlvContact = (RefreshListView) view.findViewById(R.id.rlv_contact);
+
         ivContact.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Lord_Activity.setCurrentItem(0);
             }
         });
-        ivAdd = (ImageView) view.findViewById(R.id.iv_add);
-        rlvContact = (RefreshListView) view.findViewById(R.id.rlv_contact);
+        ivContact.setOnTouchListener(new IconOnTouchListener());
+        ivAdd.setOnTouchListener(new IconOnTouchListener());
+
         rlvAdapter = new RLV_Adapter();
         rlvContact.setAdapter(rlvAdapter);
         rlvContact.setOnRefreshListener(new RefreshListView.OnRefreshListener() {

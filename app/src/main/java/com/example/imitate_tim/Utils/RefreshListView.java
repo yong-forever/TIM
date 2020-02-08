@@ -1,12 +1,15 @@
 package com.example.imitate_tim.Utils;
 
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
+import android.view.animation.DecelerateInterpolator;
 import android.view.animation.RotateAnimation;
+import android.widget.AbsListView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -15,7 +18,7 @@ import android.widget.TextView;
 
 import com.example.imitate_tim.R;
 
-public class RefreshListView extends ListView {
+public class RefreshListView extends ListView implements AbsListView.OnScrollListener {
     private static final String TAG = "RefreshListView";
     private View mHeaderView;
     private int mHeaderViewheight;
@@ -24,6 +27,7 @@ public class RefreshListView extends ListView {
     private static final int pull_refresh=0;//下拉刷新
     private static final int release_refresh=1;//释放刷新
     private static final int refreshing=2;//刷新中
+    private static final int push_refresh=3;//上拉
     private int cMode=pull_refresh;
     private RotateAnimation upAnimation;
     private RotateAnimation downAnimation;
@@ -55,6 +59,8 @@ public class RefreshListView extends ListView {
         initTopView();
         
         initAnime();
+
+        setOnScrollListener(this);
     }
 
     private void initAnime() {
@@ -91,6 +97,7 @@ public class RefreshListView extends ListView {
 
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
+        float Offset=0;
         //判断滑动距离,设置Padding
         switch (ev.getAction()){
             case MotionEvent.ACTION_DOWN:
@@ -104,7 +111,7 @@ public class RefreshListView extends ListView {
                     return super.onTouchEvent(ev);
                 }
 
-                float Offset=moveY-downY;//偏移量
+                Offset=moveY-downY;//偏移量
                 if(Offset>0&&getFirstVisiblePosition()==0){
                     pandingTop = (int) (-mHeaderViewheight+Offset);
                     mHeaderView.setPadding(0, pandingTop,0,0);
@@ -120,6 +127,12 @@ public class RefreshListView extends ListView {
                         updatemHeaderView();
                     }
                 }
+                if(Offset<0){
+                    pandingTop = (int) (-mHeaderViewheight+Offset);
+                    //mHeaderView.setPadding(0, pandingTop,0,0);
+                    cMode=push_refresh;
+                    setPadding(0,(int)Offset,0,0);
+                }
                 break;
             case MotionEvent.ACTION_UP:
                 if(cMode == pull_refresh){
@@ -128,6 +141,18 @@ public class RefreshListView extends ListView {
                     mHeaderView.setPadding(0, 0,0,0);
                     cMode=refreshing;
                     updatemHeaderView();
+                }else if(cMode==push_refresh){
+                    ValueAnimator mAnimator = ValueAnimator.ofInt((int)Offset, 0);
+                    mAnimator.setInterpolator(new DecelerateInterpolator(2.0f));//加速插值器
+                    mAnimator.setDuration(1000);
+                    mAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                        @Override
+                        public void onAnimationUpdate(ValueAnimator animation) {
+                            int curValue = (int) animation.getAnimatedValue();
+                            setPadding(0, curValue, 0, 0);
+                        }
+                    });
+                    mAnimator.start();
                 }
                 break;
         }
@@ -170,10 +195,34 @@ public class RefreshListView extends ListView {
      */
     public void onRefreshConmm() {
         cMode=pull_refresh;
-        mHeaderView.setPadding(0, -mHeaderViewheight,0,0);
+        //mHeaderView.setPadding(0, -mHeaderViewheight,0,0);
+        ValueAnimator mAnimator = ValueAnimator.ofInt(0, -mHeaderViewheight);
+        mAnimator.setInterpolator(new DecelerateInterpolator(2.0f));//加速插值器
+        mAnimator.setDuration(500);
+        mAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                int curValue = (int) animation.getAnimatedValue();
+                mHeaderView.setPadding(0, curValue, 0, 0);
+            }
+        });
+        mAnimator.start();
+
         /*tvTopview.setText("下拉刷新");
         imgArrow.setVisibility(View.VISIBLE);
         pbTopview.setVisibility(View.INVISIBLE);*/
+    }
+
+    @Override
+    public void onScrollStateChanged(AbsListView view, int scrollState) {
+        //状态更新的时候
+    }
+    //public static int SCROLL_STATE_IDLE = 0; //空闲
+    //public static int SCROLL_STATE_TOUCH_SCROLL = 1; //触摸滑动
+    //public static int SCROLL_STATE_FLING = 2; //惯性滑动
+    @Override
+    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+        //滑动过程中
     }
 
     public interface OnRefreshListener{

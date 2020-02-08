@@ -8,11 +8,10 @@
         android:layout_width="match_parent"
         android:layout_height="50dp">
         <ImageView
-            android:id="@+id/iv_contact"
+            android:id="@+id/iv_myComputer"
             android:layout_width="25dp"
             android:layout_height="25dp"
-            android:src="@drawable/muf"
-            android:stateListAnimator="@null"
+            android:src="@drawable/lzi"
             app:layout_constraintHorizontal_bias="0.05"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -24,7 +23,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="消息"
+            android:text="云文件"
             android:textColor="#fff"
             android:textSize="25sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -47,10 +46,34 @@
 
         </ImageView>
     </androidx.constraintlayout.widget.ConstraintLayout>
-    <com.example.imitate_tim.Utils.RefreshListView
-        android:id="@+id/rlv_contact"
+    <LinearLayout
+        android:background="#fff"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:id="@+id/ll_find"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:background="#F5F5F5"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="25dp">
+            <ImageView
+                android:src="@drawable/pvn"
+                android:layout_width="15dp"
+                android:layout_height="15dp">
 
-    </com.example.imitate_tim.Utils.RefreshListView>
+            </ImageView>
+            <TextView
+                android:text="搜索"
+                android:textColor="#BBB"
+                android:layout_marginLeft="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+            </TextView>
+        </LinearLayout>
+    </LinearLayout>
 </LinearLayout>
